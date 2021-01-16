@@ -1,5 +1,3 @@
-const fs = require('fs')
-
 const RoutesName = ['Show', 'All', 'Create', 'Edit']
 const DomainName = [
   'Members',
@@ -20,7 +18,7 @@ const Component = [
   { select: ['Single', 'Multiple'] }
 ]
 
-const StructureObject = () => {
+const structureGenerator = () => {
   const objJson = {}
 
   DomainName.forEach((item) => {
@@ -29,10 +27,10 @@ const StructureObject = () => {
   for (let domains in objJson) {
     objJson[domains]['routes'] = {}
     objJson[domains]['components'] = {}
-    for (let rout in RoutesName) {
+    for (const rout in RoutesName) {
       objJson[domains].routes[domains + RoutesName[rout]] = true // add show all create edit
     }
-    for (let component of Component) {
+    Component.forEach((component) => {
       for (let item in component) {
         component[item].forEach((el) => {
           objJson[domains].components[item + `${'s'}`] = {
@@ -41,7 +39,7 @@ const StructureObject = () => {
           }
         })
       }
-    }
+    })
   }
   return objJson
   //   fs.writeFileSync(
@@ -57,4 +55,4 @@ const StructureObject = () => {
   //   console.log("JSON data is saved");
 }
 
-module.exports = StructureObject
+export default structureGenerator
