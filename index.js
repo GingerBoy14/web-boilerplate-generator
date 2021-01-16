@@ -1,5 +1,14 @@
 const fs = require("fs");
-const StructureObject = require("./structure");
+
+const {
+  generateComponentExport,
+  generateComponent,
+  generateModuleExport,
+  generateModuleImport,
+  structureGenerator,
+  writeToFile,
+  createFolder,
+} = require("./helpers");
 
 const FILE_NAME_PREFIX = {
   routes: "layout",
@@ -17,31 +26,6 @@ const getFileName = (fileName, path) => {
   return name;
 };
 
-const generateTamplate = (component) => `const ${component} = () => {
-    return <div>${component}</div>
-}
-export default ${component}
-`;
-
-const generateExport = (component, fileName) =>
-  `export { default as ${component} } from './${fileName}'\n`;
-
-const generateGeneralExport = (exportedComponentsList) =>
-  `export { ${exportedComponentsList} }\n`;
-
-const generateImport = (moduleName) =>
-  `import { ${moduleName} } from './${moduleName}'\n`;
-
-const createFolder = (path, settings = {}) => {
-  if (!fs.existsSync(path)) {
-    fs.mkdirSync(path, settings);
-  }
-};
-
-const writeToFile = ({ path, file = "index.js" }, data) => {
-  fs.appendFileSync(`${path}/${file}`, data);
-};
-
 const groupComponents = ({ structure, currentItem, nesting, path }) => {
   const groupFolder = Object.keys(structure)[nesting - 1];
   if (groupFolder) {
@@ -54,15 +38,15 @@ const groupComponents = ({ structure, currentItem, nesting, path }) => {
       let exported = [];
 
       Object.keys(currentItem).forEach((item) => {
-        writeToFile({ path }, generateImport(item));
+        writeToFile({ path }, generateModuleImport(item));
         exported.push(item);
       });
-      writeToFile({ path }, generateGeneralExport(exported.join(", ")));
+      writeToFile({ path }, generateModuleExport(exported.join(", ")));
     }
   }
 };
 const genereteProjectStructure = (data = {}) => {
-  const { structure = StructureObject(), root = "domains" } = data;
+  const { structure = structureGenerator(), root = "domains" } = data;
   let nesting = 0; //lvl of object nesting
 
   //create root folder
@@ -90,8 +74,8 @@ const genereteProjectStructure = (data = {}) => {
 
       createFolder(path);
 
-      writeToFile({ path, file: fileName }, generateTamplate(item));
-      writeToFile({ path }, generateExport(item, fileName));
+      writeToFile({ path, file: fileName }, generateComponent(item));
+      writeToFile({ path }, generateComponentExport(item, fileName));
     }
   }
   return (nesting += 1);
