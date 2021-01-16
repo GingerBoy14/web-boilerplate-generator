@@ -1,5 +1,5 @@
-const fileSystem = require("./fileSystem");
-const generators = require("./generators");
-const structureGenerator = require("./structure");
+import { writeToFile, createFolder } from './fileSystem'
+import * as generators from './generators'
+import structureGenerator from './structure'
 
-module.exports = { ...fileSystem, ...generators, structureGenerator };
+export { writeToFile, createFolder, generators, structureGenerator }

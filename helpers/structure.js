@@ -1,49 +1,49 @@
-const fs = require("fs");
+const fs = require('fs')
 
-const RoutesName = ["Show", "All", "Create", "Edit"];
+const RoutesName = ['Show', 'All', 'Create', 'Edit']
 const DomainName = [
-  "Members",
-  "Category",
-  "regularProduct",
-  "Product",
-  "Comment",
-  "Log",
-  "Measure",
-  "Statistic",
-  "Cart",
-  "Wish",
-  "Purchase",
-];
+  'Members',
+  'Category',
+  'regularProduct',
+  'Product',
+  'Comment',
+  'Log',
+  'Measure',
+  'Statistic',
+  'Cart',
+  'Wish',
+  'Purchase'
+]
 const Component = [
-  { view: ["Simple", "Advanced"] },
-  { form: ["Simple", "Advanced"] },
-  { select: ["Single", "Multiple"] },
-];
+  { view: ['Simple', 'Advanced'] },
+  { form: ['Simple', 'Advanced'] },
+  { select: ['Single', 'Multiple'] }
+]
 
 const StructureObject = () => {
-  const objJson = {};
+  const objJson = {}
 
   DomainName.forEach((item) => {
-    objJson[`${item}`] = {};
-  });
+    objJson[`${item}`] = {}
+  })
   for (let domains in objJson) {
-    objJson[domains]["routes"] = {};
-    objJson[domains]["components"] = {};
+    objJson[domains]['routes'] = {}
+    objJson[domains]['components'] = {}
     for (let rout in RoutesName) {
-      objJson[domains].routes[domains + RoutesName[rout]] = true; // add show all create edit
+      objJson[domains].routes[domains + RoutesName[rout]] = true // add show all create edit
     }
     for (let component of Component) {
       for (let item in component) {
         component[item].forEach((el) => {
-          objJson[domains].components[item + `${"s"}`] = {
-            ...objJson[domains].components[item + `${"s"}`],
-            [domains + el + item[0].toUpperCase() + item.slice(1)]: true,
-          };
-        });
+          objJson[domains].components[item + `${'s'}`] = {
+            ...objJson[domains].components[item + `${'s'}`],
+            [domains + el + item[0].toUpperCase() + item.slice(1)]: true
+          }
+        })
       }
     }
   }
-  return objJson;
+  return objJson
   //   fs.writeFileSync(
   //     "fileForFolderStructure.json",
   //     JSON.stringify(objJson, null, 4),
@@ -55,6 +55,6 @@ const StructureObject = () => {
   //     }
   //   );
   //   console.log("JSON data is saved");
-};
+}
 
-module.exports = StructureObject;
+module.exports = StructureObject
