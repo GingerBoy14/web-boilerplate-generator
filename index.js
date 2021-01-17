@@ -1,18 +1,12 @@
 import fs from 'fs'
-import { structureGenerator } from './helpers'
+import { JSON_FILE_PATH, FILE_NAME_PREFIX } from './constants'
 import { generators, writeToFile, createFolder } from './utils'
 const {
   generateComponentExport,
   generateComponent,
-  generateModuleExport
+  generateModuleExport,
+  generateConstant
 } = generators
-
-const FILE_NAME_PREFIX = {
-  routes: 'layout',
-  components: 'template'
-}
-
-const ROOT_FOLDER = 'src/domains'
 
 const getFileName = (fileName, path) => {
   let name = ''
@@ -25,58 +19,66 @@ const getFileName = (fileName, path) => {
   return name
 }
 
-const groupComponents = ({ structure, currentItem, nesting, path }) => {
-  const groupFolder = Object.keys(structure)[nesting - 1]
-  if (groupFolder) {
-    const groupFolderStructure = structure[groupFolder]
-    const groupFolderStructureKey = Object.keys(groupFolderStructure)[
-      nesting - 1
-    ]
-    const lastFolder = groupFolderStructure[groupFolderStructureKey]
-    if (typeof lastFolder === 'boolean') {
-      Object.keys(currentItem).forEach((item) => {
-        writeToFile({ path }, generateModuleExport(item))
-      })
+const groupComponents = ({ currentItem, path, file }) => {
+  Object.keys(currentItem).forEach((item, index) => {
+    if (typeof Object.values(currentItem)[index] === 'boolean') {
+      writeToFile(
+        { path },
+        generateModuleExport(
+          item.endsWith('/') ? item.substring(0, item.length - 1) : item,
+          file
+        )
+      )
     }
-  }
+  })
 }
 const generateProjectStructure = (data = {}) => {
-  const { structure = structureGenerator(), root = 'domains' } = data
+  const {
+    structure = JSON.parse(fs.readFileSync(JSON_FILE_PATH)),
+    root = ''
+  } = data
   let nesting = 0 //lvl of object nesting
 
   //create root folder
   createFolder(root, { recursive: true })
 
   for (const item in structure) {
-    let path = `${root}/${item}`
-
+    let path = `${root}`
+    if (item.endsWith('/')) {
+      path += item
+    }
     if (typeof structure[item] == 'object' && structure[item] !== null) {
       createFolder(path)
-
       nesting = generateProjectStructure({
         structure: structure[item],
         root: path
       })
 
-      groupComponents({
-        currentItem: structure[item],
-        structure,
-        nesting,
-        path
-      })
-    } else {
-      const fileName = getFileName(item, path)
+      if (typeof Object.values(structure[item])[0] === 'boolean') {
+        console.log(structure[item])
+        console.log(Object.values(structure[item]))
+        groupComponents({
+          currentItem: structure[item],
+          path,
+          file: !Object.keys(structure[item])[0].endsWith('/')
+        })
+      }
+    } else if (item.endsWith('/') && typeof structure[item] === 'boolean') {
+      const currentItem = item.substring(0, item.length - 1)
+      const fileName = getFileName(currentItem, path)
 
       createFolder(path)
 
-      writeToFile({ path, file: fileName }, generateComponent(item))
-      writeToFile({ path }, generateComponentExport(item, fileName))
+      writeToFile({ path, file: fileName }, generateComponent(currentItem))
+      writeToFile({ path }, generateComponentExport(currentItem, fileName))
+    } else {
+      writeToFile({ path, file: `${item}.js` }, generateConstant(item))
     }
   }
   return ++nesting
 }
 
-fs.rmdirSync(ROOT_FOLDER, { recursive: true })
-generateProjectStructure({ root: ROOT_FOLDER })
+fs.rmdirSync('src', { recursive: true })
+generateProjectStructure()
 
 console.log('Finish structure generation.')

@@ -1,3 +1,3 @@
 import structureGenerator from './structure'
-
-export { structureGenerator }
+import parseStructureFromCSV from './parceStructureFromCSV'
+export { structureGenerator, parseStructureFromCSV }

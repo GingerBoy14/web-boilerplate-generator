@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "gen": "node ./helpers/parceProjectStructure.js --inspect"
+    "start": "babel-node index.js",
+    "gen": "babel-node helpers/parceStructureFromCSV.js"
   },
   "repository": {
     "type": "git",
@@ -14,6 +14,9 @@
   "author": "Maxim Makarov",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.17.0",
     "eslint-config-prettier": "^6.14.0",
@@ -23,6 +26,7 @@
     "prettier": "^2.1.2"
   },
   "dependencies": {
-    "csvjson-csv2json": "^5.0.6"
+    "csvjson-csv2json": "^5.0.6",
+    "string": "^3.3.3"
   }
 }

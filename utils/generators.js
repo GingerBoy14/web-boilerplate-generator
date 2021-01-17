@@ -4,9 +4,12 @@
  */
 const generateComponent = (component) =>
   `const ${component} = () => {
-    return <div>${component}</div>
-  }
-  export default ${component}\n`
+  return <div>${component}</div>
+}
+export default ${component}\n`
+
+const generateConstant = (name) =>
+  `const ${name} = {}\nexport default ${name}\n`
 
 /**
  * @param {string} component - component name
@@ -14,15 +17,17 @@ const generateComponent = (component) =>
  * @return {string} exported component from his folder
  */
 const generateComponentExport = (component, fileName) =>
-  `import ${component} from './${fileName}'
-   export default ${component}\n`
+  `import ${component} from './${fileName}'\nexport default ${component}\n`
 
 /**
  * @param {string} moduleName - module name
+ * @param {boolean} file - is file
  * @return {string} module es6 export
  */
-const generateModuleExport = (moduleName) =>
-  `export { default as ${moduleName} } from './${moduleName}'\n`
+const generateModuleExport = (moduleName, file = false) =>
+  `export { default as ${moduleName} } from './${moduleName}${
+    file ? '.js' : ''
+  }'\n`
 
 /**
  * @param {string} moduleName - module name
@@ -32,6 +37,7 @@ const generateModuleImport = (moduleName) =>
   `import { ${moduleName} } from './${moduleName}'\n`
 
 export {
+  generateConstant,
   generateComponentExport,
   generateComponent,
   generateModuleImport,
