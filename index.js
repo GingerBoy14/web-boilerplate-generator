@@ -55,8 +55,6 @@ const generateProjectStructure = (data = {}) => {
       })
 
       if (typeof Object.values(structure[item])[0] === 'boolean') {
-        console.log(structure[item])
-        console.log(Object.values(structure[item]))
         groupComponents({
           currentItem: structure[item],
           path,
