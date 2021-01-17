@@ -70,6 +70,9 @@ const generateProjectStructure = (data = {}) => {
 
       writeToFile({ path, file: fileName }, generateComponent(currentItem))
       writeToFile({ path }, generateComponentExport(currentItem, fileName))
+    } else if (item.endsWith('/') && structure[item].includes('index')) {
+      createFolder(path)
+      writeToFile({ path })
     } else {
       writeToFile({ path, file: `${item}.js` }, generateConstant(item))
     }

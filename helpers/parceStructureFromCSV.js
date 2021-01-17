@@ -26,7 +26,8 @@ const parseStructureFromCSV = (...args) => {
     structure = rowsValues,
     nestingLevel = 0,
     inDomain = false,
-    domainName = ''
+    domainName = '',
+    inComponent
   ] = args
   let structureObject = {} //parsed output object
 
@@ -39,15 +40,24 @@ const parseStructureFromCSV = (...args) => {
         structure.splice(index + 1, counter - index),
         nestingLevel + 1,
         currentNode.includes('domain'),
-        (inDomain && currentNode) || S(domainName).chompRight('/').s
+        (inDomain && currentNode) || S(domainName).chompRight('/').s,
+        currentNode.includes('component') //BAD
       )
     } else if (domainName) {
-      //if current item is component of some domain add domain name to her
-      const prop = S(`-${domainName}-${currentNode}`).camelize().s
-      structureObject[prop] = true
+      if (
+        domainName.endsWith('/') ||
+        ((!structure[index + 1] || !structure[index + 1][nestingLevel + 1]) &&
+          inComponent)
+      ) {
+        structureObject[currentNode] = 'index'
+      } else {
+        //if current item is component of some domain add domain name to her
+        const prop = S(`-${domainName}-${currentNode}`).camelize().s
+        structureObject[prop] = true
+      }
     } else {
       //create node
-      structureObject[currentNode] = true
+      structureObject[currentNode] = nestingLevel > 1 ? true : 'index'
     }
   })
   return structureObject

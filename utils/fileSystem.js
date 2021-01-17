@@ -6,7 +6,7 @@ const createFolder = (path, settings = {}) => {
   }
 }
 
-const writeToFile = ({ path, file = 'index.js' }, data) => {
+const writeToFile = ({ path, file = 'index.js' }, data = '') => {
   fs.appendFileSync(`${path}${file}`, data)
 }
 
