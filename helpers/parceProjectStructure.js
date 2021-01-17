@@ -55,9 +55,9 @@ const generate = (data = mas, nest = 0, object = {}, last = false) => {
             }
           })
         }
-
+        console.log(data)
         if (
-          nesting + index + 1 + nestingLength >=
+          nesting + index + nestingLength >=
           data.slice(1, data.length).length
         ) {
           data.splice(0, idx)
@@ -69,6 +69,14 @@ const generate = (data = mas, nest = 0, object = {}, last = false) => {
           )
         }
         data.splice(0, idx)
+        if (!data[1] && data[0]) {
+          object[data[0][nest]] = generate(
+            data.slice(0, data.length),
+            nest + 1,
+            object[data[0][nest]],
+            true
+          )
+        }
       } else if (item[nest]) {
         object = { ...object, [item[nest]]: true }
       } else {
