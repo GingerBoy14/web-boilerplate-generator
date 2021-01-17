@@ -1,11 +1,6 @@
 import fs from 'fs'
-import {
-  writeToFile,
-  createFolder,
-  structureGenerator,
-  generators
-} from './helpers'
-
+import { structureGenerator } from './helpers'
+import { generators, writeToFile, createFolder } from './utils'
 const {
   generateComponentExport,
   generateComponent,
