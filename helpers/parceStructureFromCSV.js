@@ -53,15 +53,4 @@ const parseStructureFromCSV = (...args) => {
   return structureObject
 }
 
-fs.writeFileSync(
-  'fileForFolderStructure.json',
-  JSON.stringify(parseStructureFromCSV(), null, 2),
-  (err) => {
-    if (err) {
-      throw err
-    }
-    console.log('JSON data is not  saved.')
-  }
-)
-
 export default parseStructureFromCSV

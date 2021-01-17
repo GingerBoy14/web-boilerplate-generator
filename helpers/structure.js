@@ -43,5 +43,5 @@ const structureGenerator = () => {
   }
   return objJson
 }
-console.log(structureGenerator())
+
 export default structureGenerator

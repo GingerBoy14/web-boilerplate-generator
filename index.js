@@ -1,5 +1,6 @@
 import fs from 'fs'
 import { JSON_FILE_PATH, FILE_NAME_PREFIX } from './constants'
+import { parseStructureFromCSV } from './helpers'
 import { generators, writeToFile, createFolder } from './utils'
 const {
   generateComponentExport,
@@ -76,6 +77,16 @@ const generateProjectStructure = (data = {}) => {
   return ++nesting
 }
 
+fs.writeFileSync(
+  'fileForFolderStructure.json',
+  JSON.stringify(parseStructureFromCSV(), null, 2),
+  (err) => {
+    if (err) {
+      throw err
+    }
+    console.log('JSON data is not  saved.')
+  }
+)
 fs.rmdirSync('src', { recursive: true })
 generateProjectStructure()
 
