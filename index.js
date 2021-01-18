@@ -1,18 +1,23 @@
 import fs from 'fs'
-import { JSON_FILE_PATH, FILE_NAME_PREFIX } from './constants'
+import S from 'string'
+import { JSON_FILE_PATH, FILE_NAME_PREFIX, ROOT_FOLDER } from './constants'
 import { parseStructureFromCSV } from './helpers'
 import { generators, writeToFile, createFolder } from './utils'
 const {
   generateComponentExport,
   generateComponent,
   generateModuleExport,
-  generateConstant
+  generateConstant,
+  generateStories
 } = generators
 
 const getFileName = (fileName, path) => {
   let name = ''
   Object.keys(FILE_NAME_PREFIX).forEach((folder) => {
     const prefix = FILE_NAME_PREFIX[folder]
+    if (path.includes(folder)) {
+      name = `${fileName}.${prefix}.js`
+    }
     if (path.includes(folder)) {
       name = `${fileName}.${prefix}.js`
     }
@@ -65,10 +70,15 @@ const generateProjectStructure = (data = {}) => {
     } else if (item.endsWith('/') && typeof structure[item] === 'boolean') {
       const currentItem = item.substring(0, item.length - 1)
       const fileName = getFileName(currentItem, path)
+      const stories = getFileName(currentItem, 'stories')
 
       createFolder(path)
 
       writeToFile({ path, file: fileName }, generateComponent(currentItem))
+      writeToFile(
+        { path: path, file: stories },
+        generateStories(currentItem, S(fileName).chompRight('.js'))
+      )
       writeToFile({ path }, generateComponentExport(currentItem, fileName))
     } else if (item.endsWith('/') && structure[item].includes('index')) {
       createFolder(path)
@@ -90,7 +100,7 @@ fs.writeFileSync(
     console.log('JSON data is not  saved.')
   }
 )
-fs.rmdirSync('src', { recursive: true })
-generateProjectStructure()
+fs.rmdirSync(`${ROOT_FOLDER}src`, { recursive: true })
+generateProjectStructure({ root: ROOT_FOLDER })
 
 console.log('Finish structure generation.')

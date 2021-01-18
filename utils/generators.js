@@ -36,10 +36,22 @@ const generateModuleExport = (moduleName, file = false) =>
 const generateModuleImport = (moduleName) =>
   `import { ${moduleName} } from './${moduleName}'\n`
 
+const generateStories = (
+  component,
+  file
+) => `import { ${component} } from './${file}';
+
+export default {
+  title: 'Example/${component}',
+  component: ${component}
+};
+
+const Template = (args) => <${component} {...args} />;`
 export {
   generateConstant,
   generateComponentExport,
   generateComponent,
   generateModuleImport,
-  generateModuleExport
+  generateModuleExport,
+  generateStories
 }
