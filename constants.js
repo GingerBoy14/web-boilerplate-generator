@@ -1,6 +1,8 @@
-const CSV_FILE_PATH = 'helpers/structure.csv'
+const CSV_FILE_PATH = 'sourceExpample.csv'
 const JSON_FILE_PATH = 'fileForFolderStructure.json'
-const ROOT_FOLDER = ''
+
+const ROOT_FOLDER = '' //your can pass absolute path to your project
+
 const FILE_NAME_PREFIX = {
   routes: 'layout',
   components: 'template',
