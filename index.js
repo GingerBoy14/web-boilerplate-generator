@@ -3,6 +3,7 @@ import S from 'string'
 import { JSON_FILE_PATH, FILE_NAME_PREFIX, ROOT_FOLDER } from './constants'
 import { parseStructureFromCSV } from './helpers'
 import { generators, writeToFile, createFolder } from './utils'
+import { generateModuleImport, generateTests } from './utils/generators'
 const {
   generateComponentExport,
   generateComponent,
@@ -26,17 +27,22 @@ const getFileName = (fileName, path) => {
 }
 
 const groupComponents = ({ currentItem, path, file }) => {
+  let exported = []
   Object.keys(currentItem).forEach((item, index) => {
     if (typeof Object.values(currentItem)[index] === 'boolean') {
       writeToFile(
         { path },
-        generateModuleExport(
+        generateModuleImport(
           item.endsWith('/') ? item.substring(0, item.length - 1) : item,
           file
         )
       )
+      exported.push(
+        item.endsWith('/') ? item.substring(0, item.length - 1) : item
+      )
     }
   })
+  writeToFile({ path }, generateModuleExport(exported.join(', ')))
 }
 const generateProjectStructure = (data = {}) => {
   const {
@@ -44,7 +50,6 @@ const generateProjectStructure = (data = {}) => {
     root = ''
   } = data
   let nesting = 0 //lvl of object nesting
-
   //create root folder
   createFolder(root, { recursive: true })
 
@@ -71,15 +76,27 @@ const generateProjectStructure = (data = {}) => {
       const currentItem = item.substring(0, item.length - 1)
       const fileName = getFileName(currentItem, path)
       const stories = getFileName(currentItem, 'stories')
+      const testFile = getFileName(currentItem, 'tests')
+      const testPath = `${path}__tests__/`
 
       createFolder(path)
 
-      writeToFile({ path, file: fileName }, generateComponent(currentItem))
+      createFolder(testPath)
+      writeToFile(
+        { path: testPath, file: testFile },
+        generateTests(currentItem, S(fileName).chompRight('.js'))
+      )
       writeToFile(
         { path: path, file: stories },
-        generateStories(currentItem, S(fileName).chompRight('.js'))
+        generateStories(currentItem, S(fileName).chompRight('.js'), path)
       )
-      writeToFile({ path }, generateComponentExport(currentItem, fileName))
+
+      writeToFile({ path, file: fileName }, generateComponent(currentItem))
+
+      writeToFile(
+        { path },
+        generateComponentExport(currentItem, S(fileName).chompRight('.js'))
+      )
     } else if (item.endsWith('/') && structure[item].includes('index')) {
       createFolder(path)
       writeToFile({ path })

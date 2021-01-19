@@ -1,15 +1,20 @@
+import S from 'string'
+import { ROOT_FOLDER } from '../constants'
 /**
  * @param {string} component - component name
  * @return {string} template of functional component
  */
 const generateComponent = (component) =>
-  `const ${component} = () => {
+  `const ${component} = (props) => {
   return <div>${component}</div>
 }
+
+${component}.propTypes = {}
+${component}.defaultProps = {}
+
 export default ${component}\n`
 
-const generateConstant = (name) =>
-  `const ${name} = {}\nexport default ${name}\n`
+const generateConstant = (name) => `const ${name} = {}\nexport { ${name} }\n`
 
 /**
  * @param {string} component - component name
@@ -17,41 +22,47 @@ const generateConstant = (name) =>
  * @return {string} exported component from his folder
  */
 const generateComponentExport = (component, fileName) =>
-  `import ${component} from './${fileName}'\nexport default ${component}\n`
+  `export { default as ${component} } from './${fileName}'\n`
 
-/**
- * @param {string} moduleName - module name
- * @param {boolean} file - is file
- * @return {string} module es6 export
- */
-const generateModuleExport = (moduleName, file = false) =>
-  `export { default as ${moduleName} } from './${moduleName}${
-    file ? '.js' : ''
-  }'\n`
-
-/**
- * @param {string} moduleName - module name
- * @return {string} module import
- */
-const generateModuleImport = (moduleName) =>
-  `import { ${moduleName} } from './${moduleName}'\n`
+const generateModuleImport = (name, file = false) =>
+  `import { ${name} } from './${name}${file ? '.js' : ''}'\n`
 
 const generateStories = (
   component,
-  file
-) => `import { ${component} } from './${file}';
+  file,
+  path
+) => `import ${component} from './${file}'
 
-export default {
-  title: 'Example/${component}',
+const metadata = {
+  title: '${S(S(path).chompRight(`${component}/`)).chompLeft(
+    `${ROOT_FOLDER}src/`
+  )}${component}',
   component: ${component}
-};
+}
+export default metadata
 
-const Template = (args) => <${component} {...args} />;`
+const Template = (args) => <${component} {...args} />
+
+export const ${component}Story = Template.bind({})
+
+${component}Story.args = {}\n`
+
+const generateTests = (component, file) => `import React from 'react'
+import { render } from '@testing-library/react'
+import ${component} from '../${file}'
+
+test('Render ${component} test.', () => {
+  render(<${component} />)
+})\n`
+
+const generateModuleExport = (items) => `export { ${items} }\n`
+
 export {
-  generateConstant,
   generateComponentExport,
-  generateComponent,
   generateModuleImport,
   generateModuleExport,
-  generateStories
+  generateConstant,
+  generateComponent,
+  generateStories,
+  generateTests
 }
