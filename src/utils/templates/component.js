@@ -9,6 +9,8 @@ const generateComponent = (component) =>
 /**
  * @info ${component} (${moment().format('DD MMM YYYY')}) // CREATION DATE
  *
+ * @comment ${component} - React component.
+ *   
  * @since ${moment().format('DD MMM YYYY')} ( v.0.0.1 ) // LAST-EDIT DATE
  *
  * @return {ReactComponent}
