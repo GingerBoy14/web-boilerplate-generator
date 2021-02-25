@@ -26,6 +26,7 @@
     "prettier": "^2.1.2"
   },
   "dependencies": {
+    "cli-progress": "^3.9.0",
     "csvjson-csv2json": "^5.0.6",
     "moment": "^2.29.1",
     "string": "^3.3.3"

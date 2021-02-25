@@ -1,7 +1,9 @@
 import fs from 'fs'
 import S from 'string'
+import cliProgress from 'cli-progress'
+
 import { JSON_FILE_PATH, FILE_NAME_PREFIX, ROOT_FOLDER } from './constants'
-import { parseStructureFromCSV } from './helpers'
+import { getNodeCount, parseStructureFromCSV } from './helpers'
 import { generators, writeToFile, createFolder } from './utils'
 const {
   generateComponentExport,
@@ -27,20 +29,28 @@ const getFileName = (fileName, path) => {
   return name
 }
 
-const groupComponents = ({ currentItem, path, file }) => {
+const groupComponents = ({ currentItem, path }) => {
   let exported = []
+  let isConstants = false
+  if (path.includes('constant')) {
+    isConstants = true
+  }
   Object.keys(currentItem).forEach((item, index) => {
     if (typeof Object.values(currentItem)[index] === 'boolean') {
+      const currentNode = item.endsWith('/')
+        ? item.substring(0, item.length - 1)
+        : isConstants
+        ? S(item).underscore().toUpperCase()
+        : item
+
       writeToFile(
         { path },
         generateModuleImport(
-          item.endsWith('/') ? item.substring(0, item.length - 1) : item,
-          file
+          currentNode,
+          item.endsWith('/') ? item.substring(0, item.length - 1) : item
         )
       )
-      exported.push(
-        item.endsWith('/') ? item.substring(0, item.length - 1) : item
-      )
+      exported.push(currentNode)
     }
   })
   writeToFile({ path }, generateModuleExport(exported.join(', ')))
@@ -53,7 +63,6 @@ const generateProjectStructure = (data = {}) => {
   let nesting = 0 //lvl of object nesting
   //create root folder
   createFolder(root, { recursive: true })
-
   for (const item in structure) {
     let path = `${root}`
     if (item.endsWith('/')) {
@@ -69,8 +78,7 @@ const generateProjectStructure = (data = {}) => {
       if (typeof Object.values(structure[item])[0] === 'boolean') {
         groupComponents({
           currentItem: structure[item],
-          path,
-          file: !Object.keys(structure[item])[0].endsWith('/')
+          path
         })
       }
     } else if (item.endsWith('/') && typeof structure[item] === 'boolean') {
@@ -102,11 +110,23 @@ const generateProjectStructure = (data = {}) => {
       createFolder(path)
       writeToFile({ path })
     } else {
-      writeToFile({ path, file: `${item}.js` }, generateConstant(item))
+      writeToFile(
+        { path, file: `${item}.js` },
+        generateConstant(S(item).underscore().toUpperCase())
+      )
     }
+    bar1.increment()
+    bar1.update()
   }
   return ++nesting
 }
+
+const nodeCount = getNodeCount()
+const bar1 = new cliProgress.SingleBar({
+  stopOnComplete: true,
+  format: 'progress [{bar}] {percentage}% | {value}/{total} nodes'
+})
+bar1.start(nodeCount, 0)
 
 fs.writeFileSync(
   JSON_FILE_PATH,
@@ -120,5 +140,3 @@ fs.writeFileSync(
 )
 fs.rmdirSync(`${ROOT_FOLDER}src`, { recursive: true })
 generateProjectStructure({ root: ROOT_FOLDER })
-
-console.log('Finish structure generation.')

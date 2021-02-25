@@ -8,6 +8,8 @@ const rowsValues = csv2json(
   fs.readFileSync(CSV_FILE_PATH, 'utf8')
 ).map((item) => Object.values(item))
 
+const getNodeCount = () => rowsValues.length
+
 const countNestedItems = ({ index, items, nestingLevel }) => {
   let counter = index
   //count nested items that will be passed into next iteration
@@ -64,3 +66,5 @@ const parseStructureFromCSV = (...args) => {
 }
 
 export default parseStructureFromCSV
+
+export { getNodeCount }

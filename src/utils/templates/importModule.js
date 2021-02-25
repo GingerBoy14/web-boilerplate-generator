@@ -1,4 +1,4 @@
-const generateModuleImport = (name, file = false) =>
-  `import { ${name} } from './${name}${file ? '.js' : ''}'\n`
+const generateModuleImport = (name, file) =>
+  `import { ${name} } from './${file}'\n`
 
 export default generateModuleImport
