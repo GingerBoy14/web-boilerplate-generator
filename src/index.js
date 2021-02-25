@@ -3,13 +3,14 @@ import S from 'string'
 import { JSON_FILE_PATH, FILE_NAME_PREFIX, ROOT_FOLDER } from './constants'
 import { parseStructureFromCSV } from './helpers'
 import { generators, writeToFile, createFolder } from './utils'
-import { generateModuleImport, generateTests } from './utils/generators'
 const {
   generateComponentExport,
   generateComponent,
   generateModuleExport,
   generateConstant,
-  generateStories
+  generateStories,
+  generateModuleImport,
+  generateTest
 } = generators
 
 const getFileName = (fileName, path) => {
@@ -84,7 +85,7 @@ const generateProjectStructure = (data = {}) => {
       createFolder(testPath)
       writeToFile(
         { path: testPath, file: testFile },
-        generateTests(currentItem, S(fileName).chompRight('.js'))
+        generateTest(currentItem, S(fileName).chompRight('.js'))
       )
       writeToFile(
         { path: path, file: stories },
@@ -108,7 +109,7 @@ const generateProjectStructure = (data = {}) => {
 }
 
 fs.writeFileSync(
-  'fileForFolderStructure.json',
+  JSON_FILE_PATH,
   JSON.stringify(parseStructureFromCSV(), null, 2),
   (err) => {
     if (err) {

@@ -2,10 +2,10 @@
   "name": "web-boilerplate-generator",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "babel-node index.js",
-    "gen": "babel-node helpers/parceStructureFromCSV.js"
+    "start": "babel-node src/index.js",
+    "gen": "babel-node src/helpers/parceStructureFromCSV.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "csvjson-csv2json": "^5.0.6",
+    "moment": "^2.29.1",
     "string": "^3.3.3"
   }
 }
