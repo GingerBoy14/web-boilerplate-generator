@@ -1,237 +1,384 @@
 {
   "src/": {
+    "services/": {
+      "Firebase/-": {
+        "firestore/.": "index",
+        "storage/.": "index"
+      }
+    },
     "constants/": {
       "firebaseConfig": true,
-      "currency": true,
-      "route": true,
-      "color": true,
-      "role": true,
-      "priority": true
+      "roles": true,
+      "skills": true,
+      "routes": true
     },
-    "domains/": {
-      "Member/": {
-        "components/": {
-          "combined/": "index",
-          "forms/": {
-            "MemberAdvancedForm/": true
-          },
-          "views/": {
-            "MemberSimpleView/": true,
-            "MemberAdvancedView/": true
-          },
-          "list/": "index",
-          "select/": {
-            "MemberSingleSelect/": true
+    "components/": {
+      "Navigation/": true,
+      "Sidebar/": true,
+      "Lib/.": "index",
+      "AccessDenied/": true,
+      "NotFoundPath/": true
+    },
+    "hooks/.": "index",
+    "config/": {
+      "theme/.": "index"
+    },
+    "styles/.": "index",
+    "assets/.": "index",
+    "app/": {
+      "index": true,
+      "constants/": {
+        "routes": true,
+        "routePaths": true,
+        "collections": true
+      },
+      "contexts/": {
+        "Session/": {
+          "context": true,
+          "hooks/.": "index",
+          "components/.": "index"
+        }
+      },
+      "domains/": {
+        "Role/": {
+          "components/": {
+            "selects/": {
+              "RoleSingleSelect/": true
+            }
           }
         },
-        "routes/": {
-          "MemberShow/": true,
-          "MemberEdit/": true,
-          "MemberAll/": true
-        }
-      },
-      "Role/": {
-        "components/": {
-          "views/": {
-            "RoleSimpleView/": true
+        "Session/": {
+          "components/": {
+            "forms/": {
+              "SessionSimpleForm/": true
+            }
           },
-          "select/": {
-            "RoleSingleSelect/": true
-          }
-        }
-      },
-      "Category/": {
-        "components/": {
-          "views/": {
-            "CategorySimpleView/": true,
-            "CategoryAdvancedView/": true
-          },
-          "forms/": {
-            "CategoryAdvancedView/": true
-          },
-          "list/": "index",
-          "select/": {
-            "CategorySingleSelect/": true
-          },
-          "combined/": "index"
-        },
-        "routes/": {
-          "CategoryAll/": true
-        }
-      },
-      "RegularProduct/": {
-        "components/": {
-          "forms/": {
-            "RegularProductAdvancedForm/": true
-          },
-          "table/": "index",
-          "select/": {
-            "RegularProductSingleSelect/": true
-          },
-          "combined/": "index"
-        },
-        "routes/": {
-          "RegularProductAll/": true
-        }
-      },
-      "Product/": {
-        "components/": {
-          "combined/": "index",
-          "forms/": {
-            "ProductSimpleForm/": true,
-            "ProductAdvancedForm/": true
-          },
-          "views/": {
-            "ProductSimpleView/": true,
-            "ProductAdvancedView/": true
-          },
-          "list/": "index",
-          "table/": "index"
-        },
-        "routes/": {
-          "ProductShow/": true,
-          "ProductEdit/": true,
-          "ProductAll/": true
-        }
-      },
-      "Comment/": {
-        "components/": {
-          "views/": {
-            "CommentAdvancedView/": true
-          },
-          "list/": "index",
-          "forms/": {
-            "CommentSimpleView/": true
-          }
-        }
-      },
-      "Currency/": {
-        "components/": {
-          "views/": {
-            "CurrencySimpleView/": true
-          },
-          "select/": {
-            "CurrencySingleSelect/": true
-          }
-        }
-      },
-      "Notification/": {
-        "components/": {
-          "views/": {
-            "NotificationSimpleView/": true,
-            "NotificationAdvancedView/": true
-          },
-          "list/": "index"
-        },
-        "routes/": {
-          "NotificationAll/": true
-        }
-      },
-      "Priority/": {
-        "components/": {
-          "views/": {
-            "PrioritySimpleView/": true
-          },
-          "select/": {
-            "PrioritySingleSelect/": true
-          }
-        }
-      },
-      "Log/": {
-        "components/": {
-          "views/": {
-            "LogAdvancedView/": true
-          },
-          "list/": "index",
-          "combined/": "index"
-        },
-        "routes/": {
-          "LogAll/": true
-        }
-      },
-      "Color/": {
-        "components/": {
-          "views/": {
-            "ColorSimpleView/": true
-          },
-          "select/": {
-            "ColorSingleSelect/": true
-          }
-        }
-      },
-      "Measure/": {
-        "components/": {
-          "views/": {
-            "MeasureSimpleView/": true
-          },
-          "select/": {
-            "MeasureSingleSelect/": true
-          },
-          "combined/": "index",
-          "forms/": {
-            "MeasureSimpleForm/": true
-          }
-        }
-      },
-      "Statistic/": {
-        "components/": {
-          "views/": {
-            "StatisticAdvancedView/": true
-          },
-          "filters/": {
-            "StatisticAdvancedFilter/": true
+          "routes/": {
+            "SessionLogin/": true,
+            "SessionRegister/": true
           }
         },
-        "routes/": {
-          "StatisticAll/": true
-        }
-      },
-      "Cart/": {
-        "components/": {
-          "table/": "index"
-        },
-        "routes/": {
-          "CartAll/": true
-        }
-      },
-      "Wish/": {
-        "components/": {
-          "table/": "index"
-        },
-        "routes/": {
-          "WishAll/": true
-        }
-      },
-      "Purchase/": {
-        "components/": {
-          "views/": {
-            "PurchaseAdvancedView/": true
+        "User/": {
+          "components/": {
+            "views/": {
+              "UserSimpleView/": true
+            },
+            "forms/": {
+              "UserSimpleForm/": true
+            },
+            "lists/": {
+              "UserSimpleList/": true
+            },
+            "tables/": {
+              "UserSimpleTable/": true
+            },
+            "selects/": {
+              "UserSingleSelect/": true,
+              "UserMultipleSelect/": true
+            }
           },
-          "list/": "index"
-        },
-        "routes/": {
-          "PurchaseAll/": true
-        }
-      },
-      "Session/": {
-        "components/": {
-          "views/": {
-            "SessionSimpleView/": true
+          "routes/": {
+            "UserShow/": true,
+            "UserAll/": true
           }
         },
-        "routes/": {
-          "SessionLogin/": true
+        "Company/": {
+          "components/": {
+            "views/": {
+              "CompanySimpleView/": true
+            },
+            "lists/": {
+              "CompanySimpleList/": true
+            },
+            "combined/": {
+              "lists/": {
+                "CompanyListWithSelect/": true
+              }
+            },
+            "selects/": {
+              "CompanySingleSelect/": true
+            }
+          },
+          "routes/": {
+            "CompanyShow/": true,
+            "CompanyAll/": true
+          }
+        },
+        "Project/": {
+          "components/": {
+            "views/": {
+              "ProjectAdvancedView/": true
+            },
+            "lists/": {
+              "ProjectSimpleList/": true
+            },
+            "forms/": {
+              "ProjectAdvancedForm/": true
+            }
+          },
+          "routes/": {
+            "ProjectAll/": true,
+            "ProjectShow/": true
+          }
+        },
+        "Technology/": {
+          "components/": {
+            "views/": {
+              "TechnologyAdvancedView/": true,
+              "TechnologySimpleView/": true
+            },
+            "lists/": {
+              "TechnologySimpleList/": true
+            },
+            "forms/": {
+              "TechnologyAdvancedForm/": true
+            },
+            "combined/": {
+              "lists/": {
+                "TechnologyListWithSelect/": true
+              },
+              "views/": {
+                "TechnologyAdvancedWithForm/": true
+              }
+            }
+          },
+          "routes/": {
+            "TechnologyAll/": true,
+            "TechnologyCreate/": true,
+            "TechnologyShow/": true
+          }
+        },
+        "Competence/": {
+          "components/": {
+            "views/": {
+              "CompetenceAdvancedView/": true
+            },
+            "lists/": {
+              "CompetenceSimpleList/": true
+            },
+            "forms/": {
+              "CompetenceAdvancedForm/": true
+            },
+            "combined/": {
+              "lists/": {
+                "CompetenceListWithCreate/": true
+              }
+            }
+          },
+          "routes/": {
+            "CompetenceAll/": true,
+            "CompetenceCreate/": true,
+            "CompetenceEdit/": true,
+            "CompetenceShow/": true
+          }
+        },
+        "Level/": {
+          "components/": {
+            "views/": {
+              "LevelSimpleView/": true,
+              "LevelAdvancedView/": true
+            },
+            "forms/": {
+              "LevelSimpleForm/": true
+            },
+            "combined/": {
+              "views/": {
+                "LevelViewWithActions/": true
+              },
+              "tree/": {
+                "LevelSimpleTree/": true
+              }
+            }
+          },
+          "routes/": {
+            "LevelEdit/": true
+          }
+        },
+        "Expiriense/": {
+          "components/": {
+            "views/": {
+              "ExpirienseSimpleView/": true
+            }
+          }
+        },
+        "Skill/": {
+          "components/": {
+            "views/": {
+              "SkillSimpleView/": true
+            },
+            "lists/": {
+              "SkillSimpleList/": true
+            },
+            "selects/": {
+              "SkillSingleSelect/": true
+            },
+            "combined/": {
+              "lists/": {
+                "SkillListWithCreate/": true
+              }
+            }
+          },
+          "routes/": {
+            "SkillCreate/": true
+          }
+        },
+        "Speciality/": {
+          "components/": {
+            "views/": {
+              "SpecialitySimpleView/": true
+            },
+            "lists/": {
+              "SpecialitySimpleList/": true
+            },
+            "forms/": {
+              "SpecialityAdvancedForm/": true
+            }
+          },
+          "routes/": {
+            "SpecialityCreate/": true
+          }
+        },
+        "Plan/": {
+          "components/": {
+            "views/": {
+              "PlanSimpleView/": true
+            },
+            "lists/": {
+              "PlanSimpleList/": true
+            },
+            "forms/": {
+              "PlanAdvancedForm/": true
+            }
+          },
+          "routes/": {
+            "PlanCreate/": true,
+            "PlanEdit/": true,
+            "PlanShow/": true
+          }
+        },
+        "Material/": {
+          "components/": {
+            "views/": {
+              "MaterialSimpleView/": true
+            },
+            "lists/": {
+              "MaterialSimpleList/": true
+            },
+            "combined/": {
+              "lists/": {
+                "MaterialListsWithUpload/": true
+              }
+            }
+          },
+          "routes/": {
+            "MaterialCreate/": true
+          }
+        },
+        "Todo/": {
+          "components/": {
+            "views/": {
+              "TodoSimpleView/": true
+            },
+            "lists/": {
+              "TodoSimpleList/": true
+            },
+            "forms/": {
+              "TodoSimpleForm/": true
+            },
+            "combined/": {
+              "TodoViews/": true
+            }
+          },
+          "routes/": {
+            "TodoCreate/": true
+          }
+        },
+        "Interview/": {
+          "components/": {
+            "lists/": {
+              "InterviewSimpleList/": true
+            },
+            "views/": {
+              "InterviewSimpleView/": true,
+              "InterviewAdvancedView/": true
+            }
+          },
+          "routes/": {
+            "InterviewCreate/": true,
+            "InterviewShow/": true,
+            "InterviewEdit/": true
+          }
+        },
+        "Question/": {
+          "components/": {
+            "views/": {
+              "QuestionSimpleView/": true
+            },
+            "forms/": {
+              "QuestionSimpleForm/": true
+            },
+            "combined/": {
+              "views/": {
+                "QuestionViewWithForm/": true
+              }
+            }
+          }
+        },
+        "Notification/": {
+          "components/": {
+            "views/": {
+              "NotificationAdvancedView/": true
+            },
+            "lists/": {
+              "NotificationSimpleList/": true
+            }
+          },
+          "routes/": {
+            "NotificationAll/": true
+          }
         }
       }
     },
-    "components/": {
-      "Header/": true,
-      "Navbar/": true,
-      "Settings/": true,
-      "Layout/": true,
-      "Menu/": true
-    },
-    "services/": "index",
-    "context/": "index"
+    "modules/": {
+      "chat-module/": {
+        "domains/": {
+          "Message/": {
+            "components/": {
+              "views/": {
+                "MessageAdvancedView/": true
+              }
+            }
+          },
+          "Chat/": {
+            "components/": {
+              "lists/": {
+                "ChatSimpleList/": true
+              },
+              "forms/": {
+                "ChatSimpleForm/": true,
+                "ChatAdvancedForm/": true
+              },
+              "combined/": {
+                "lists/": {
+                  "ChatListWithForm/": true
+                },
+                "modals/": {
+                  "ChatModalWithForm/": true
+                }
+              }
+            },
+            "routes/": {
+              "ChatAll/": true,
+              "ChatShow/": true
+            }
+          }
+        },
+        "constants/": {
+          "routePaths": true,
+          "collections": true,
+          "routes": true
+        }
+      }
+    }
   }
 }

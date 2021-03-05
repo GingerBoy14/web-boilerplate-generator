@@ -1,4 +1,4 @@
-const ROOT_FOLDER = '/home/maxim/Documents/Projects/my/test/' //your can pass absolute path to your project
+const ROOT_FOLDER = '/home/maxim/Documents/Projects/fractal.academy/PDP-app/' //your can pass absolute path to your project
 
 const CSV_FILE_PATH = 'src/sourceExample.csv'
 const JSON_FILE_PATH = 'fileForFolderStructure.json'

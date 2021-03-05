@@ -65,9 +65,12 @@ const generateProjectStructure = (data = {}) => {
   createFolder(root, { recursive: true })
   for (const item in structure) {
     let path = `${root}`
+
     if (item.endsWith('/')) {
-      path += item
     }
+    const exp = new RegExp(/\W[^\/]$/m)
+    path += !exp.test(item) ? item : item.slice(0, -1)
+
     if (typeof structure[item] == 'object' && structure[item] !== null) {
       createFolder(path)
       nesting = generateProjectStructure({
@@ -75,7 +78,10 @@ const generateProjectStructure = (data = {}) => {
         root: path
       })
 
-      if (typeof Object.values(structure[item])[0] === 'boolean') {
+      if (
+        item.endsWith('/') &&
+        typeof Object.values(structure[item])[0] === 'boolean'
+      ) {
         groupComponents({
           currentItem: structure[item],
           path
@@ -106,12 +112,14 @@ const generateProjectStructure = (data = {}) => {
         { path },
         generateComponentExport(currentItem, S(fileName).chompRight('.js'))
       )
-    } else if (item.endsWith('/') && structure[item].includes('index')) {
+    } else if (item.includes('/') && structure[item].includes('index')) {
+      // To create folder
       createFolder(path)
+      // To create index file
       writeToFile({ path })
     } else {
       writeToFile(
-        { path, file: `${item}.js` },
+        { path: S(path).chompRight(item), file: `${item}.js` },
         generateConstant(S(item).underscore().toUpperCase())
       )
     }

@@ -59,7 +59,9 @@ const parseStructureFromCSV = (...args) => {
       }
     } else {
       //create node
-      structureObject[currentNode] = nestingLevel > 1 ? true : 'index'
+      structureObject[currentNode] = !currentNode.endsWith('/.')
+        ? true
+        : 'index'
     }
   })
   return structureObject

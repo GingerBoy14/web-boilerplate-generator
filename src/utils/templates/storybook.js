@@ -12,8 +12,8 @@ const metadata = {
 }
 export default metadata
 
-export const ${component} = (args) => <${component} {...args} />
+export const ${component}Story = (args) => <${component} {...args} />
 
-${component}.args = {}\n`
+${component}Story.args = {}\n`
 
 export default generateStories
